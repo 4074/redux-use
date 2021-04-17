@@ -1,10 +1,20 @@
 {
   "name": "redux-use",
-  "version": "1.0.0",
-  "main": "index.js",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "files": [
+    "src/**/*",
+    "dist/**/*"
+  ],
+  "description": "A easy way to use redux base on `@reduxjs/toolkit` and react hooks.",
   "repository": "https://github.com/4074/redux-use.git",
   "author": "4074 <win.ten.in@gmail.com>",
   "license": "MIT",
+  "peerDependencies": {
+    "@reduxjs/toolkit": "^1.5",
+    "react-redux": "^7",
+    "redux": "^4"
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.21.0",
     "@typescript-eslint/parser": "^4.21.0",
@@ -12,11 +22,13 @@
     "eslint-config-alloy": "^3.10.0",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
-  },
-  "dependencies": {
+    "typescript": "^4.2.4",
     "@reduxjs/toolkit": "^1.5.1",
     "react-redux": "^7.2.3",
     "redux": "^4.0.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   }
 }

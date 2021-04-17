@@ -21,6 +21,7 @@ out/
 .build
 node_modules
 .cache
+example
 examples
 tests
 /index.js
