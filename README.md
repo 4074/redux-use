@@ -49,3 +49,13 @@ yarn start
 yarn install
 yarn start
 ```
+
+## Sharing
+![img](./sharing/images/redux-share.001.png)
+![img](./sharing/images/redux-share.002.png)
+![img](./sharing/images/redux-share.003.png)
+![img](./sharing/images/redux-share.004.png)
+![img](./sharing/images/redux-share.005.png)
+![img](./sharing/images/redux-share.006.png)
+![img](./sharing/images/redux-share.007.png)
+![img](./sharing/images/redux-share.008.png)
