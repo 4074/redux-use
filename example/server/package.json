@@ -7,6 +7,7 @@
     "json-server": "^0.16.3"
   },
   "scripts": {
-    "start": "npx json-server --watch db.json --port 4000 --delay 1000"
+    "setup": "node setup.js",
+    "start": "npm run setup & npx json-server --watch db.json --port 4000 --delay 1000"
   }
 }
