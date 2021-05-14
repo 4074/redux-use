@@ -1,7 +1,7 @@
 import { createSlice, ActionReducerMapBuilder, SliceCaseReducers, ValidateSliceCaseReducers, CaseReducerActions } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import combinator from './combinator'
-import getName from './getName'
+import { createName } from './name'
 
 type ActionDispatchers<
   Actions extends CaseReducerActions<Reducers>,
@@ -24,7 +24,7 @@ export default <
   }
 ) => {
   const slice = createSlice({
-    name: getName(name),
+    name: createName(name),
     initialState,
     reducers: (reducers || {}) as ValidateSliceCaseReducers<State, Reducers>,
     extraReducers: extraReducers || (() => { }) as any

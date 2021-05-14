@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, Draft, ActionReducerMapBuilder, SliceCaseReducers, ValidateSliceCaseReducers } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import combinator from './combinator'
-import getName from './getName'
+import { createName } from './name'
 
 export interface AsyncState<Params = any, Data = any> {
   status: 'none' | 'loading' | 'finished' | 'error'
@@ -47,7 +47,7 @@ export default <
   const realInitialState = initialState || { status: 'none' }
 
   // Use producer func name or name of options
-  let sliceName = getName(name || producer.name)
+  let sliceName = createName(name || producer.name)
 
   const thunk = createAsyncThunk<Draft<Data>, Draft<Params>>(sliceName, (async (params: Params) => {
     const result = await producer(...params as any)

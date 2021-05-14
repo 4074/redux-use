@@ -3,8 +3,8 @@
   "version": "0.1.1",
   "main": "dist/index.js",
   "files": [
-    "src/**/*",
-    "dist/**/*"
+    "src",
+    "dist"
   ],
   "description": "A easy way to use redux base on `@reduxjs/toolkit` and react hooks.",
   "repository": "https://github.com/4074/redux-use.git",

@@ -1,6 +1,6 @@
 const names = new Set<string>()
 
-export default (origin: string) => {
+export const createName = (origin: string) => {
   let name = origin
   if (!origin || names.has(origin)) {
     name = `${origin}_${Math.random().toString().slice(-8)}`
@@ -12,4 +12,9 @@ export default (origin: string) => {
   }
   names.add(name)
   return name
+}
+
+export const setFunctionName = <T extends CallableFunction>(name: string, fn: T): T => {
+  Object.defineProperty(fn, 'name', { value: name })
+  return fn
 }
