@@ -1,4 +1,4 @@
-import reduxu from 'redux-use'
+import { setFunctionName } from 'redux-use'
 
 const createRequest = <Data, Params = void>(url: string, method: string = 'GET') => {
   const prefix = 'http://localhost:4000/'
@@ -15,7 +15,7 @@ const createRequest = <Data, Params = void>(url: string, method: string = 'GET')
       }).then((res) => res.json())
     }
   }
-  return reduxu.setFunctionName(`[${method}]${url}`, fn)
+  return setFunctionName(`[${method}]${url}`, fn)
 }
 
 export default createRequest

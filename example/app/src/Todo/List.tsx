@@ -5,12 +5,12 @@ const uuid = () => Math.random().toString().slice(-8)
 
 export default function List() {
   const [todo, loadTodo] = useTodo()
-  const [todoAdd, loadTodoAdd] = useTodoAdd()
+  const [, loadTodoAdd] = useTodoAdd()
   const [todoFilter] = useTodoFilter()
   const [title, setTitle] = useState('')
 
   useEffect(() => {
-    loadTodo()
+    if (loadTodo.shouldInitialLoad()) loadTodo()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -35,15 +35,15 @@ export default function List() {
         onKeyPress={handleKeyPress}
       />
       <Filter />
-      {todoAdd.status === 'loading' && 'adding'}
       <div>
-        {todo.status === 'loading' && 'loading'}
+        {loadTodo.isLoading() && 'loading'}
         {todo.data
           ?.filter((item) => todoFilter.type === 'all' || item.done)
           .map((item) => (
             <Item key={item.id} dataSource={item} />
           ))}
       </div>
+      {loadTodoAdd.isLoading() && 'adding'}
     </div>
   )
 }
@@ -95,7 +95,7 @@ function Item({ dataSource }: { dataSource: Model.Todo }) {
     <div>
       <input type="checkbox" checked={done} onChange={handleDone} />
       <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} onBlur={() => handleSave()} />
-      {todoSave.processing?.[dataSource.id] && 'saving'}
+      {todoSave.processingKeys?.[dataSource.id] && 'saving'}
     </div>
   )
 }

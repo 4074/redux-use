@@ -2,13 +2,21 @@ import { createSlice, createAsyncThunk, Draft, ActionReducerMapBuilder, SliceCas
 import { useDispatch, useSelector } from 'react-redux'
 import combinator from './combinator'
 import { createName } from './name'
+import StatusUtil, { StatusUtilAttached } from './statusUtil'
 
 export interface AsyncState<Params = any, Data = any> {
   status: 'none' | 'loading' | 'finished' | 'error'
   params?: Params
   data?: Data
   error?: Error
-  processing?: Record<string | number, boolean>
+  processingKeys?: Record<string | number, boolean>
+}
+
+export interface AsyncStateWithHelpers<Params = any, Data = any> extends AsyncState<Params, Data> {
+  isLoading: () => boolean
+  isFinished: () => boolean
+  isError: () => boolean
+  shouldInitialLoad: () => boolean
 }
 
 type ProcessingKeyGetter<Params extends any[]> = (...params: Params) => string | number | undefined
@@ -16,15 +24,15 @@ type ProcessingKeyGetter<Params extends any[]> = (...params: Params) => string |
 const addProcessingKey = <Params extends any[]>(params: Params, state: AsyncState<Params, any>, getter: ProcessingKeyGetter<Params>) => {
   const key = getter(...params)
   if (key !== undefined) {
-    if (!state.processing) state.processing = {}
-    state.processing[key] = true
+    if (!state.processingKeys) state.processingKeys = {}
+    state.processingKeys[key] = true
   }
 }
 
 const removeProcessingKey = <Params extends any[]>(params: Params, state: AsyncState<Params, any>, getter: ProcessingKeyGetter<Params>) => {
   const key = getter(...params)
-  if (key !== undefined && state.processing && state.processing[key])
-    delete state.processing[key]
+  if (key !== undefined && state.processingKeys && state.processingKeys[key])
+    delete state.processingKeys[key]
 }
 
 export default <
@@ -81,15 +89,22 @@ export default <
     }
   })
 
-  const hook = (): [AsyncState<Params, Data>, (...args: Params) => Promise<void>] => {
-    const data = useSelector<any, AsyncState<Params, Data>>(state => state[sliceName])
+  const hook = (): [
+    AsyncStateWithHelpers<Params, Data>,
+    StatusUtilAttached<(...args: Params) => Promise<void>>,
+    StatusUtil
+  ] => {
+    const data = useSelector<any, AsyncStateWithHelpers<Params, Data>>(state => state[sliceName])
     const dispatch = useDispatch()
+    const status = new StatusUtil(data)
 
     const load = async (...params: Params) => {
       dispatch(thunk(params as any))
     }
 
-    return [data, load]
+    const attached = status.attach(load)
+
+    return [data, attached, status]
   }
 
   combinator.use(sliceName, slice)
