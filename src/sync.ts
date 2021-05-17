@@ -31,7 +31,7 @@ export default <
   })
 
   const hook = (): [State, ActionDispatchers<typeof slice.actions, Reducers>] => {
-    const data = useSelector<any, State>(state => state[name])
+    const data = useSelector<any, State>(state => combinator.mapState(state)[name])
     const dispatch = useDispatch()
 
     const dispatcher: Record<string, CallableFunction> = {}

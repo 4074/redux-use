@@ -94,7 +94,7 @@ export default <
     StatusUtilAttached<(...args: Params) => Promise<void>>,
     StatusUtil
   ] => {
-    const data = useSelector<any, AsyncStateWithHelpers<Params, Data>>(state => state[sliceName])
+    const data = useSelector<any, AsyncStateWithHelpers<Params, Data>>(state => combinator.mapState(state)[sliceName])
     const dispatch = useDispatch()
     const status = new StatusUtil(data)
 
