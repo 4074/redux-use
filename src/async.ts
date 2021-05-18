@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, Draft, ActionReducerMapBuilder, SliceCas
 import { useDispatch, useSelector } from 'react-redux'
 import combinator from './combinator'
 import { createName } from './name'
-import StatusUtil from './statusUtil'
+import StatusDetector from './statusDetector'
 
 export interface AsyncState<Params = any, Data = any> {
   status: 'none' | 'loading' | 'finished' | 'error'
@@ -92,11 +92,11 @@ export default <
   const hook = (): [
     AsyncStateWithHelpers<Params, Data>,
     (...args: Params) => Promise<void>,
-    StatusUtil
+    StatusDetector
   ] => {
     const data = useSelector<any, AsyncStateWithHelpers<Params, Data>>(state => combinator.mapState(state)[sliceName])
     const dispatch = useDispatch()
-    const status = new StatusUtil(data)
+    const detector = new StatusDetector(data)
 
     const load = async (...params: Params) => {
       dispatch(thunk(params as any))
@@ -104,7 +104,7 @@ export default <
 
     // const attached = status.attach(load)
 
-    return [data, load, status]
+    return [data, load, detector]
   }
 
   combinator.use(sliceName, slice)
