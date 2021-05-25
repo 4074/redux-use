@@ -4,13 +4,13 @@ import { ChangeEventHandler, KeyboardEventHandler, useEffect, useState } from 'r
 const uuid = () => Math.random().toString().slice(-8)
 
 export default function List() {
-  const [todo, loadTodo] = useTodo()
-  const [, loadTodoAdd] = useTodoAdd()
+  const [todo, loadTodo, todoStatus] = useTodo()
+  const [, loadTodoAdd, addTodoStatus] = useTodoAdd()
   const [todoFilter] = useTodoFilter()
   const [title, setTitle] = useState('')
 
   useEffect(() => {
-    if (loadTodo.shouldInitialLoad()) loadTodo()
+    if (todoStatus.shouldInitialLoad()) loadTodo()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -36,14 +36,14 @@ export default function List() {
       />
       <Filter />
       <div>
-        {loadTodo.isLoading() && 'loading'}
+        {todoStatus.isLoading() && 'loading'}
         {todo.data
           ?.filter((item) => todoFilter.type === 'all' || item.done)
           .map((item) => (
             <Item key={item.id} dataSource={item} />
           ))}
       </div>
-      {loadTodoAdd.isLoading() && 'adding'}
+      {addTodoStatus.isLoading() && 'adding'}
     </div>
   )
 }

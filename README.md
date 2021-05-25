@@ -1,5 +1,10 @@
 # redux-use
 
+[![NPM version][npm-image]][npm-url]
+
+[npm-image]: https://img.shields.io/npm/v/redux-use
+[npm-url]: https://www.npmjs.com/package/redux-use
+
 A easy way to use redux base on `@reduxjs/toolkit` and react hooks.
 
 ## Usage
@@ -51,6 +56,7 @@ yarn start
 ```
 
 ## Sharing
+
 ![img](./sharing/images/redux-share.001.png)
 ![img](./sharing/images/redux-share.002.png)
 ![img](./sharing/images/redux-share.003.png)
