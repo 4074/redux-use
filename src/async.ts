@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, Draft, ActionReducerMapBuilder, SliceCaseReducers, ValidateSliceCaseReducers } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
-import combinator from './combinator'
+import globalCombinator, { Combinator } from './combinator'
 import { createName } from './name'
 import StatusDetector from './statusDetector'
 
@@ -43,13 +43,15 @@ export default <
   producer: (...args: Params) => Promise<Data>,
   {
     name, initialState, reducers, extraReducers,
-    getProcessingKey = (...params: Params) => params[0]?.['id']
+    getProcessingKey = (...params: Params) => params[0]?.['id'],
+    combinator = globalCombinator
   }: {
     name?: string
     initialState?: AsyncState<Params, Data>
     reducers?: ValidateSliceCaseReducers<AsyncState<Params, Data>, Reducers>
     extraReducers?: (builder: ActionReducerMapBuilder<AsyncState<Params, Data>>) => void
     getProcessingKey?: ProcessingKeyGetter<Params>
+    combinator?: InstanceType<typeof Combinator>
   } = {}
 ) => {
   const realInitialState = initialState || { status: 'none' }
@@ -90,11 +92,11 @@ export default <
   })
 
   const hook = (): [
-    AsyncStateWithHelpers<Params, Data>,
+    AsyncState<Params, Data>,
     (...args: Params) => Promise<void>,
     StatusDetector
   ] => {
-    const data = useSelector<any, AsyncStateWithHelpers<Params, Data>>(state => combinator.mapState(state)[sliceName])
+    const data = useSelector<any, AsyncState<Params, Data>>(state => combinator.mapState(state)[sliceName])
     const dispatch = useDispatch()
     const detector = new StatusDetector(data)
 
@@ -106,6 +108,9 @@ export default <
 
     return [data, load, detector]
   }
+
+  // TODO:
+  hook.__producer = producer
 
   combinator.use(sliceName, slice)
 

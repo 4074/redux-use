@@ -1,7 +1,7 @@
 import { Slice, combineReducers } from '@reduxjs/toolkit'
 import { Reducer } from 'redux'
 
-class Combinator {
+export class Combinator {
   private prefix: string | undefined
   private combined: Record<string, Reducer> = {}
 

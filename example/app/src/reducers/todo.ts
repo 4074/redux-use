@@ -1,13 +1,14 @@
 import reduxu, { PayloadAction } from 'redux-use'
 import createRequest from './createRequest'
 
-const add = reduxu.async(createRequest<Model.Todo, Model.Todo>('todos', 'POST'))
+const add = reduxu.async(createRequest<any, any>('todos', 'POST'))
 export const useTodoAdd = add.hook
 
-const update = reduxu.async(createRequest<Model.Todo, Model.Todo>('todos', 'PATCH'))
+export const updateFetcher = createRequest<any, any>('todos', 'PATCH')
+const update = reduxu.async(updateFetcher)
 export const useTodoUpdate = update.hook
 
-export const useTodo = reduxu.async(createRequest<Model.Todo[]>('todos'), {
+export const useTodo = reduxu.async(createRequest<any[]>('todos'), {
   extraReducers: (builder) => {
     builder.addCase(add.thunk.fulfilled, (state, { payload }) => {
       state.data?.push(payload)

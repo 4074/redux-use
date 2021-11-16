@@ -1,5 +1,6 @@
 import { useTodo, useTodoAdd, useTodoFilter, useTodoUpdate } from '../reducers'
 import { ChangeEventHandler, KeyboardEventHandler, useEffect, useState } from 'react'
+import reduxu from 'redux-use'
 
 const uuid = () => Math.random().toString().slice(-8)
 
@@ -73,10 +74,10 @@ function Filter() {
   )
 }
 
-function Item({ dataSource }: { dataSource: Model.Todo }) {
+function Item({ dataSource }: { dataSource: any }) {
   const [title, setTitle] = useState(dataSource.title)
   const [done, setDone] = useState(dataSource.done)
-  const [todoSave, loadTodoSave] = useTodoUpdate()
+  const [todoSave, loadTodoSave] = reduxu.use(useTodoUpdate)()
 
   const handleSave = (updateDone: boolean = done) => {
     loadTodoSave({
@@ -95,7 +96,7 @@ function Item({ dataSource }: { dataSource: Model.Todo }) {
     <div>
       <input type="checkbox" checked={done} onChange={handleDone} />
       <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} onBlur={() => handleSave()} />
-      {todoSave.processingKeys?.[dataSource.id] && 'saving'}
+      {todoSave?.status === 'loading' && 'saving'}
     </div>
   )
 }
