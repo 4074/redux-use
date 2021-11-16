@@ -77,7 +77,7 @@ function Filter() {
 function Item({ dataSource }: { dataSource: any }) {
   const [title, setTitle] = useState(dataSource.title)
   const [done, setDone] = useState(dataSource.done)
-  const [todoSave, loadTodoSave] = reduxu.use(useTodoUpdate)()
+  const [todoSave, loadTodoSave] = reduxu.bindState(useTodoUpdate)()
 
   const handleSave = (updateDone: boolean = done) => {
     loadTodoSave({
