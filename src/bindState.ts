@@ -1,20 +1,21 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { AsyncState, HookReturn } from './async'
+import StatusDetector from './statusDetector'
 
-const bindState = <T>(hook: () => T): () => T => {
-  const h: any = hook
-  if (!h.__producer) return hook
-  const producer = h.__producer
-  const [state, setState] = useState({ status: 'none', data: null, params: [], error: null })
+export const use = <Params extends any[], Data>(producer: (...args: Params) => Promise<Data>): HookReturn<Params, Data> => {
+  const [state, setState] = useState<AsyncState>({ status: 'none', data: null, params: [], error: null })
+  const detectorRef = useRef(new StatusDetector(state))
+  detectorRef.current.setState(state)
 
-  return () => [
+  return [
     state,
-    (...args: any[]) => {
+    (...args: Params) => {
       setState({
         ...state,
         params: [...args],
         status: 'loading'
       })
-      producer(...args).then((res) => {
+      producer(...args as any).then((res) => {
         setState({
           ...state,
           data: res,
@@ -27,8 +28,13 @@ const bindState = <T>(hook: () => T): () => T => {
           status: 'error'
         })
       })
-    }
-  ] as any
+    },
+    detectorRef.current
+  ]
 }
 
-export default bindState
+export default <T>(hook: () => T): T => {
+  const h: any = hook
+  if (!h.__producer) return hook()
+  return use(h.__producer) as any
+}

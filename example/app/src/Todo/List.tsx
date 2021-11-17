@@ -77,7 +77,7 @@ function Filter() {
 function Item({ dataSource }: { dataSource: any }) {
   const [title, setTitle] = useState(dataSource.title)
   const [done, setDone] = useState(dataSource.done)
-  const [todoSave, loadTodoSave] = reduxu.bindState(useTodoUpdate)()
+  const [todoSave, loadTodoSave, saveStatus] = reduxu.bindState(useTodoUpdate)
 
   const handleSave = (updateDone: boolean = done) => {
     loadTodoSave({
@@ -96,7 +96,7 @@ function Item({ dataSource }: { dataSource: any }) {
     <div>
       <input type="checkbox" checked={done} onChange={handleDone} />
       <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} onBlur={() => handleSave()} />
-      {todoSave?.status === 'loading' && 'saving'}
+      {saveStatus.isLoading() && 'saving'}
     </div>
   )
 }

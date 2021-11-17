@@ -19,6 +19,12 @@ export interface AsyncStateWithHelpers<Params = any, Data = any> extends AsyncSt
   shouldInitialLoad: () => boolean
 }
 
+export type HookReturn<Params extends any[], Data> = [
+  AsyncState<Params, Data>,
+  (...args: Params) => void,
+  StatusDetector
+]
+
 type ProcessingKeyGetter<Params extends any[]> = (...params: Params) => string | number | undefined
 
 const addProcessingKey = <Params extends any[]>(params: Params, state: AsyncState<Params, any>, getter: ProcessingKeyGetter<Params>) => {

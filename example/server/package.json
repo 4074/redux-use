@@ -8,6 +8,6 @@
   },
   "scripts": {
     "setup": "node setup.js",
-    "start": "npm run setup & npx json-server --watch db.json --port 4000 --delay 1000"
+    "start": "npm run setup & npx json-server --watch db.json --port 4040 --delay 1000"
   }
 }

@@ -15,6 +15,10 @@ export default class StatusDetector {
     this.state = state
   }
 
+  public setState = (s: AsyncState) => {
+    this.state = s
+  }
+
   public isLoading = () => {
     return this.state.status === 'loading'
   }

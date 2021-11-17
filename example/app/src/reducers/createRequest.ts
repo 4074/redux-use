@@ -1,7 +1,7 @@
 import { setFunctionName } from 'redux-use'
 
 const createRequest = <Data, Params = void>(url: string, method: string = 'GET') => {
-  const prefix = 'http://localhost:4000/'
+  const prefix = 'http://localhost:4040/'
   const { [url]: fn } = {
     [url]: async (params: Params): Promise<Data> => {
       let rurl = `${prefix}${url}`
