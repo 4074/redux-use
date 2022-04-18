@@ -1,7 +1,8 @@
 import async from './async'
 import sync from './sync'
 import combinator from './combinator'
-import bindState, { use } from './bindState'
+import use, { bindState } from './use'
+import store, { bindStore } from './store'
 
 export type { PayloadAction } from '@reduxjs/toolkit'
 export type { AsyncState } from './async'
@@ -14,5 +15,7 @@ export default {
   async,
   use,
   bindState,
-  reducer: combinator.combine
+  store,
+  bindStore,
+  reducer: combinator.combine,
 }
