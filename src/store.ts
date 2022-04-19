@@ -24,11 +24,11 @@ const store = <Params extends any[], Data>(
   const map: Map<string, Data> = new Map()
   const cache: StoreCache<Params, Data> = {
     get: (params) => {
-      const key = getCacheKeys(options.cacheKey, params)
+      const key = getCacheKeys(options?.cacheKey, params)
       return key !== undefined && map.get(key)
     },
     set: (params, data) => {
-      const key = getCacheKeys(options.cacheKey, params)
+      const key = getCacheKeys(options?.cacheKey, params)
       if (key !== undefined) map.set(key, data)
     },
   }

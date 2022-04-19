@@ -34,6 +34,7 @@ const use = <Params extends any[], Data>(producer: (...args: Params) => Promise<
         data: cache?.get(args),
         status: 'finished',
       })
+      return
     } else {
       setStateWithStore({
         ...state,

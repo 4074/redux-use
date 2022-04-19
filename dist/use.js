@@ -28,6 +28,7 @@ const use = (producer) => {
         // Use cache if exists
         if (cache === null || cache === void 0 ? void 0 : cache.get(args)) {
             setStateWithStore(Object.assign(Object.assign({}, state), { params: [...args], data: cache === null || cache === void 0 ? void 0 : cache.get(args), status: 'finished' }));
+            return;
         }
         else {
             setStateWithStore(Object.assign(Object.assign({}, state), { params: [...args], status: 'loading' }));

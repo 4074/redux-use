@@ -12,11 +12,11 @@ const store = (producer, options) => {
     const map = new Map();
     const cache = {
         get: (params) => {
-            const key = getCacheKeys(options.cacheKey, params);
+            const key = getCacheKeys(options === null || options === void 0 ? void 0 : options.cacheKey, params);
             return key !== undefined && map.get(key);
         },
         set: (params, data) => {
-            const key = getCacheKeys(options.cacheKey, params);
+            const key = getCacheKeys(options === null || options === void 0 ? void 0 : options.cacheKey, params);
             if (key !== undefined)
                 map.set(key, data);
         },
