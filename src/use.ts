@@ -4,6 +4,11 @@ import { EventEmitter } from './emitter'
 import StatusDetector from './statusDetector'
 import useUnmountRef from './useUnmountRef'
 
+/**
+ * Create a hook from a function
+ * @param producer async function
+ * @returns
+ */
 const use = <Params extends any[], Data>(producer: (...args: Params) => Promise<Data>): HookReturn<Params, Data> => {
   const [state, setState] = useState<AsyncState>({ status: 'none', data: null, params: [], error: null })
   const unmountRef = useUnmountRef()
@@ -70,8 +75,11 @@ export const bindState = <Params extends any[], Data>(
   hook: () => HookReturn<Params, Data>,
 ): HookReturn<Params, Data> => {
   const h: any = hook
-  if (!h.__producer) return hook()
-  return use(h.__producer) as any
+  if (h.__producer) {
+    return use(h.__producer)
+  } else {
+    throw Error('bindState params should be the hook of reduxu.async')
+  }
 }
 
 export default use
