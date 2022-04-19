@@ -30,7 +30,9 @@ declare const _default: {
         };
     };
     use: <Params_2 extends any[], Data_1>(producer: (...args: Params_2) => Promise<Data_1>) => import("./async").HookReturn<Params_2, Data_1>;
-    bindState: <T>(hook: () => T) => T;
+    bindState: <Params_3 extends any[], Data_2>(hook: () => import("./async").HookReturn<Params_3, Data_2>) => import("./async").HookReturn<Params_3, Data_2>;
+    store: <Params_4 extends any[], Data_3>(producer: (...args: Params_4) => Promise<Data_3>, options?: import("./store").StoreOptions<Params_4>) => (...args: Params_4) => Promise<Data_3>;
+    bindStore: <Params_5 extends any[], Data_4>(hook: () => import("./async").HookReturn<Params_5, Data_4>) => (...args: Params_5) => Promise<Data_4>;
     reducer: (prefix?: string) => import("redux").Reducer<import("redux").CombinedState<{
         [x: string]: any;
     }>, import("redux").AnyAction>;

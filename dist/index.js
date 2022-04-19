@@ -26,7 +26,8 @@ exports.Combinator = exports.setFunctionName = void 0;
 const async_1 = __importDefault(require("./async"));
 const sync_1 = __importDefault(require("./sync"));
 const combinator_1 = __importDefault(require("./combinator"));
-const bindState_1 = __importStar(require("./bindState"));
+const use_1 = __importStar(require("./use"));
+const store_1 = __importStar(require("./store"));
 var name_1 = require("./name");
 Object.defineProperty(exports, "setFunctionName", { enumerable: true, get: function () { return name_1.setFunctionName; } });
 var combinator_2 = require("./combinator");
@@ -34,8 +35,10 @@ Object.defineProperty(exports, "Combinator", { enumerable: true, get: function (
 exports.default = {
     sync: sync_1.default,
     async: async_1.default,
-    use: bindState_1.use,
-    bindState: bindState_1.default,
-    reducer: combinator_1.default.combine
+    use: use_1.default,
+    bindState: use_1.bindState,
+    store: store_1.default,
+    bindStore: store_1.bindStore,
+    reducer: combinator_1.default.combine,
 };
 //# sourceMappingURL=index.js.map
